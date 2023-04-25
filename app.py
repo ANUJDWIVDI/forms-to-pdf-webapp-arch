@@ -71,6 +71,11 @@ def form_process():
 
     return 'Form submitted successfully!'
 
+def send_attachment(filename):
+    response = make_response(open(filename, 'rb').read())
+    response.headers.set('Content-Disposition', 'attachment', filename=filename)
+    response.headers.set('Content-Type', 'application/pdf')
+    return response
 
 if __name__ == '__main__':
     app.run()
