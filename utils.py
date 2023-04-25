@@ -162,9 +162,57 @@ def process_weekly_report(report_week, project_name, tasks_planned):
 
 
 def process_monthly_report(report_month, project_name, tasks_planned):
-    print(f"Report Month: {report_month}")
-    print(f"Project Name: {project_name}")
-    print(f"Tasks Planned: {tasks_planned}")
+    # Define the PDF filename
+    filename = f"{project_name} Monthly Report {report_month}.pdf"
+
+    # Create a canvas and set the font colors
+    c = canvas.Canvas(filename, pagesize=letter)
+    c.setFillColor(colors.red)
+    c.setStrokeColor(colors.black)
+
+    # Draw the company logo on the top left corner
+    logo_path = "static/logo.png"  # Replace with the actual path to your logo image
+    c.drawImage(logo_path, 30, 720, width=70, height=70)
+
+    # Add the report title using a Paragraph style
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle("Title", parent=styles["Heading1"], textColor=colors.black, fontSize=18, spaceAfter=20)
+    title = Paragraph(f"{project_name} Monthly Report - {report_month}", title_style)
+    title.wrapOn(c, 400, 40)
+    title.drawOn(c, 120, 730)
+
+    # Create a table to display the tasks planned
+    table_data = [
+        ["Task", "Description"],
+        *[[f"Task {i}", task] for i, task in enumerate(tasks_planned, start=1)]
+    ]
+    table = Table(table_data, colWidths=[80, 240])
+    table.setStyle([
+        ("TEXTCOLOR", (0, 0), (-1, -1), colors.black),
+        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("FONTSIZE", (0, 0), (-1, 0), 12),
+        ("BACKGROUND", (0, 0), (-1, 0), colors.red),
+        ("BACKGROUND", (0, 1), (-1, -1), colors.white),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("ALIGN", (0, 0), (-1, -1), "LEFT"),
+        ("GRID", (0, 0), (-1, -1), 1, colors.black),
+    ])
+
+    # Wrap the table and add it to the canvas
+    table.wrapOn(c, 400, 200)
+    table.drawOn(c, 80, 600)
+
+    # Add a footer with the date and page number
+    footer_text = "Generated on {date}".format(date=datetime.now().strftime("%Y-%m-%d"))
+    c.setFont("Helvetica", 10)
+    c.drawRightString(550, 30, footer_text)
+    c.drawString(30, 30, "Page 1")
+
+    # Save the canvas as a PDF file and close it
+    c.showPage()
+    c.save()
+
+    return filename
 
 def process_feedback_form(feedback_subject, feedback_message, feedback_email):
     print(f"Feedback Subject: {feedback_subject}")
