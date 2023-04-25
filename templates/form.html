@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fill out form</title>
+
+  </head>
+  <body>
+    <form id="myForm" action="/form-process" method="POST">
+      <select id="request_type" onchange="showFields()">
+        <option value="">--Select Request Type--</option>
+        <option value="employee_info">Employee Info</option>
+        <option value="daily_report">Daily Report</option>
+        <option value="weekly_report">Weekly Report</option>
+        <option value="monthly_report">Monthly Report</option>
+        <option value="feedback_form">Feedback Form</option>
+        <option value="project_report">Project Report</option>
+        <option value="leave_letter">Leave Letter</option>
+      </select>
+        <input type="hidden" name="request_type" id="request_type_input">
+      <div id="fields"></div>
+      <button type="submit">Submit</button>
+    </form>
+    <script>
+      function showFields() {
+          var selectedRequest = document.getElementById("request_type").value;
+          var fieldsDiv = document.getElementById("fields");
+          fieldsDiv.innerHTML = "";
+          switch (selectedRequest) {
+              case "employee_info":
+                  fieldsDiv.innerHTML = "<label for='employee_id'>Employee ID:</label><input type='text' id='employee_id' name='employee_id'><br><br><label for='employee_name'>Employee Name:</label><input type='text' id='employee_name' name='employee_name'><br><br><label for='department'>Department:</label><input type='text' id='department' name='department'><br><br>";
+                  break;
+              case "daily_report":
+                  fieldsDiv.innerHTML = "<label for='report_date'>Report Date:</label><input type='date' id='report_date' name='report_date'><br><br><label for='hours_worked'>Hours Worked:</label><input type='number' id='hours_worked' name='hours_worked'><br><br><label for='tasks_completed'>Tasks Completed:</label><input type='text' id='tasks_completed' name='tasks_completed'><br><br>";
+                  break;
+              case "weekly_report":
+                  fieldsDiv.innerHTML = "<label for='report_week'>Report Week:</label><input type='week' id='report_week' name='report_week'><br><br><label for='project_name'>Project Name:</label><input type='text' id='project_name' name='project_name'><br><br><label for='tasks_planned'>Tasks Planned:</label><input type='text' id='tasks_planned' name='tasks_planned'><br><br>";
+                  break;
+              case "monthly_report":
+                  fieldsDiv.innerHTML = "<label for='report_month'>Report Month:</label><input type='month' id='report_month' name='report_month'><br><br><label for='project_name'>Project Name:</label><input type='text' id='project_name' name='project_name'><br><br><label for='tasks_planned'>Tasks Planned:</label><input type='text' id='tasks_planned' name='tasks_planned'><br><br>";
+                  break;
+              case "feedback_form":
+                  fieldsDiv.innerHTML = "<label for='feedback_subject'>Feedback Subject:</label><input type='text' id='feedback_subject' name='feedback_subject'><br><br><label for='feedback_message'>Feedback Message:</label><textarea id='feedback_message' name='feedback_message' rows='4' cols='50'></textarea><br><br><label for='feedback_email'>Email:</label><input type='email' id='feedback_email' name='feedback_email'><br><br>";
+                  break;
+              case "project_report":
+                  fieldsDiv.innerHTML = "<label for='project_id'>Project ID:</label><input type='text' id='project_id' name='project_id'><br><br><label for='project_name'>Project Name:</label><input type='text' id='project_name' name='project_name'><br><br><label for='project_manager'>Project Manager:</label><input type='text' id='project_manager' name='project_manager'><br><br>";
+                  break;
+              case "leave_letter":
+                  fieldsDiv.innerHTML = "<label for='leave_start_date'>Start Date:</label><input type='date' id='leave_start_date' name='leave_start_date'><br><br><label for='leave_end_date'>End Date:</label><input type='date' id='leave_end_date' name='leave_end_date'><br><br><label for='leave_reason'>Reason for Leave:</label><textarea id='leave_reason' name='leave_reason' rows='4' cols='50'></textarea><br><br>";
+          }
+          // Get the selected option from the dropdown
+    const selectedOption = document.getElementById("request_type").value;
+    // Update the value of the hidden input field with the selected option
+    document.getElementById("request_type_input").value = selectedOption;
+      }
+
+        </script>
+  </body>
+</html>
+
